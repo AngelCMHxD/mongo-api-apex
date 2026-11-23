@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 from datetime import datetime
 import os
+import uvicorn
 
 app = FastAPI()
 
@@ -44,3 +45,7 @@ def post_evento(bar_id: int, datos: dict):
     datos['fecha_creacion'] = datetime.now().isoformat()
     db['Eventos'].insert_one(datos)
     return {'mensaje': 'Evento guardado'}
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
